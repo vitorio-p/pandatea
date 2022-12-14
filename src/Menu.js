@@ -6,13 +6,22 @@ import axios from "axios";
 export default class Menu extends React.Component {
   state = {
     page: "list",
-    data: [
-
-    ],
+    data: [],
     newItemName: "",
     newItemType: "",
     newItemPrice: "",
   };
+
+  BASE_API_URL = "http://localhost:8888";
+
+  async componentDidMount() {
+    console.log(`ComponentDidMount`);
+    const response = await axios.get(`${this.BASE_API_URL}/pandatea`);
+    console.log(response.data);
+    this.setState({
+      data: response.data,
+    });
+  }
 
   renderPage() {
     if (this.state.page === "list") {
@@ -42,19 +51,25 @@ export default class Menu extends React.Component {
     });
   };
 
-  addNew = () => {
+  addNew = async () => {
+    console.log("adding new item")
     const newItem = {
       name: this.state.newItemName,
       type: this.state.newItemType,
       price: this.state.newItemPrice,
     };
 
+    const response = await axios.post(`${this.BASE_API_URL}/pandatea`, newItem);
+    newItem._id = response.data.insertedId;
+
     this.setState({
+      data: [...this.state.data, newItem],
       page: "list",
       newItemName: "",
       newItemType: "",
       newItemPrice: "",
     });
+    console.log(`New item added: ${response.data.insertedId}`);
   };
 
   render() {
