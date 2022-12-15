@@ -12,7 +12,7 @@ export default class Menu extends React.Component {
     newItemPrice: "",
   };
 
-  BASE_API_URL = "http://localhost:8888";
+  BASE_API_URL = "https://pandatea.onrender.com";
 
   async componentDidMount() {
     console.log(`ComponentDidMount`);
